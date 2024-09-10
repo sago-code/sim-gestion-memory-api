@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
-import { Ajustes } from './ajustes.entity';  // Importa la entidad Ajustes
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Ajustes } from './ajustes.entity';
 
 @Entity({name: 'particiones'})
 export class Particiones {
@@ -26,6 +26,6 @@ export class Particiones {
     @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     updatedAt: Date;
 
-    @Column({nullable: true ,type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-    deletedAt: Date;
+    @Column({ type: 'datetime', nullable: true })
+    deletedAt?: Date;
 }

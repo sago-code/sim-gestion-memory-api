@@ -20,8 +20,8 @@ export class Ajustes{
     @Column({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     updatedAt: Date
 
-    @Column({nullable: true ,type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
-    deletedAt: Date
+    @Column({ type: 'datetime', nullable: true })
+    deletedAt?: Date;
 
     
     @OneToMany(() => Particiones, (particion) => particion.tipoAjuste)
