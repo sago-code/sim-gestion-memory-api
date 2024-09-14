@@ -24,4 +24,13 @@ export class GestionMemoriaService {
         return this.particionesRepository.save(nuevaParticion)
     }
 
+    mostrarAjuste() {
+        return this.ajustesRepository.find()
+    }
+
+    mostrarParticionesSegunAjuste(tipoAjusteId: number): Promise<Particiones[]> {
+        return this.particionesRepository.find({
+        where: { tipoAjuste: { id: tipoAjusteId } },
+        });
+    }
 }
