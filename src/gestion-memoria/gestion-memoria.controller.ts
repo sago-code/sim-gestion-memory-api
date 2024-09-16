@@ -79,4 +79,41 @@ export class GestionMemoriaController {
             proceso,
         };
     }
+
+    @Patch('/BorrarAsignacion/:proceso_id')
+    async borrarAsignacion(@Param('proceso_id', ParseIntPipe) proceso_id: number) {
+        try {
+            // Llama al servicio para borrar la asignación
+            const asignacion = await this.gestionMemoriaService.borrarAsignacion(proceso_id);
+            
+            // Devuelve una respuesta exitosa
+            return {
+                message: `Asignación con proceso_id ${proceso_id} marcada como eliminada`,
+                asignacion,
+            };
+        } catch (error) {
+            // Maneja errores y devuelve un mensaje adecuado
+            return {
+                message: `Error al marcar la asignación con proceso_id ${proceso_id} como eliminada`,
+                error: error.message,
+            };
+        }
+    }
+
+    @Patch('/BorrarColaProceso/:proceso_id')
+    async borrarColaProceso(@Param('proceso_id', ParseIntPipe) proceso_id: number) {
+        try {
+            const colaProceso = await this.gestionMemoriaService.borrarColaProceso(proceso_id)
+
+            return {
+                message: `cola con proceso_id ${proceso_id} marcada como eliminada`,
+                colaProceso
+            }
+        } catch (error) {
+            return {
+                message: `Error al marcar la cola con proceso_id ${proceso_id} como eliminada`,
+                error: error.message,
+            };
+        }
+    }
 }

@@ -171,15 +171,49 @@ export class GestionMemoriaService {
         return await this.procesosRepository.save(proceso);
     }
 
-    async borrarColaProceso(id: number): Promise<Procesos> {
-        const proceso = await this.procesosRepository.findOneBy({ id });
+    async borrarAsignacion(proceso_id: number): Promise<Asignaciones> {
+        // Encontrar el proceso con el ID dado
+        const proceso = await this.procesosRepository.findOneBy({ id: proceso_id });
+    
+        if (!proceso) {
+            throw new NotFoundException('Proceso no encontrado');
+        }
+    
+        // Buscar la asignación usando el proceso encontrado
+        const asignacion = await this.asignacionesRepository.findOne({
+            where: {
+                proceso: proceso // Usar la relación para buscar
+            }
+        });
+    
+        if (!asignacion) {
+            throw new NotFoundException('Asignación no encontrada');
+        }
+    
+        // Actualizar los campos de la asignación
+        asignacion.updatedAt = new Date();
+        asignacion.deletedAt = new Date();
+    
+        // Guardar la asignación actualizada
+        return await this.asignacionesRepository.save(asignacion);
+    }
+
+    async borrarColaProceso(proceso_id: number): Promise<ColaProcesos> {
+        const proceso  =  await this.procesosRepository.findOneBy({ id: proceso_id });
 
         if (!proceso) {
             throw new NotFoundException('Proceso no encontrado');
         }
 
-        proceso.deletedAt = new Date();
+        const colaProceso = await this.colaProcesosRepository.findOne({
+            where: {
+                proceso: proceso
+            }
+        });
 
-        return await this.procesosRepository.save(proceso);
+        colaProceso.updatedAt = new Date();
+        colaProceso.deletedAt = new Date();
+
+        return await this.colaProcesosRepository.save(colaProceso);
     }
 }
