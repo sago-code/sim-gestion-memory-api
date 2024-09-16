@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { Ajustes } from './ajustes.entity';
+import { Asignaciones } from "./asignaciones.entity";
 
 @Entity({name: 'particiones'})
 export class Particiones {
@@ -28,4 +29,7 @@ export class Particiones {
 
     @Column({ type: 'datetime', nullable: true })
     deletedAt?: Date;
+
+    @OneToMany(() => Asignaciones, (asignaciones) => asignaciones.particion)
+    particiones: Asignaciones[];
 }
